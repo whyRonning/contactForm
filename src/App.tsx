@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { lazy, Suspense } from "react";
+import { Route, Routes } from "react-router-dom";
+import { HomeContainer } from "./components/home/homeContainer";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+const Form = lazy(() => import("./components/form/formContainer"));
+export const App = () => (
+  <main>
+    <Routes>
+      <Route element={<HomeContainer />} path={"/"} />
+      <Route
+        element={
+          <Suspense fallback="loading">
+            <Form />
+          </Suspense>
+        }
+        path={"/form"}
+      />
+      <Route
+        element={
+          <Suspense fallback="loading">
+            <Form />
+          </Suspense>
+        }
+        path={"/form/edit"}
+      />
+    </Routes>
+  </main>
+);
